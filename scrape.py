@@ -10,13 +10,11 @@ if len(sys.argv) != 2:
 	print "Usage:   in terminal type >> python scrape.py \"<Nyt cooking recipe address>\""
 	print "Define output type in program, default is .txt"
 	http = ""
-	print len(sys.argv)
-	print str(sys.argv[1])
 	sys.exit()
 else:
 	http = str(sys.argv[1])
 	
-output = 1 #1 for .tex 2 for .txt
+output = 2 #1 for .tex 2 for .txt
 
 try:
 	recipe_web_raw = requests.get(http)
@@ -82,6 +80,10 @@ for ing in ingredients:
 for i in range(len(ingredients_final)):
 	ingredients_final[i] = ingredients_final[i].replace("tablespoon", "tbsp")
 	ingredients_final[i] = ingredients_final[i].replace("teaspoon","tsp")
+	ingredients_final[i] = ingredients_final[i].replace("ounces", "oz")
+	ingredients_final[i] = ingredients_final[i].replace("ounce", "oz")
+	ingredients_final[i] = ingredients_final[i].replace("pounds", "lb")
+	ingredients_final[i] = ingredients_final[i].replace("pound", "lb")
 	ingredients_final[i] = ingredients_final[i].strip()
 
 #combine quantities and ingredients
@@ -124,7 +126,6 @@ else:
 	f_o += "\n\n"
 	for y in steps_text:
 		f_o += y + "\n"
-	print f_o
 	#write
 	f = open("{}.txt".format(title.replace(" ", "")), "w+")
 	f.write(f_o)
